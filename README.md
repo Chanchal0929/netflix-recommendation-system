@@ -1,82 +1,65 @@
 # Netflix Recommendation System
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![ML](https://img.shields.io/badge/ML-Scikit--Surprise-orange)
+![Status](https://img.shields.io/badge/Status-Complete-green)
 
-A movie recommendation system built using the Netflix Prize Dataset. The project compares collaborative filtering and matrix factorization techniques to generate personalized movie recommendations.
+A personalized movie recommendation system built on the Netflix Prize Dataset
+using collaborative filtering and matrix factorization techniques.
 
-## Dataset
-- Source: Netflix Prize Dataset
-- Ratings Used: 2 Million+
-- Rating Scale: 1–5
-- Users: Thousands of unique users
-- Movies: Thousands of unique movies
-
-## Project Objectives
-- Analyze user rating behavior
-- Study content popularity trends
-- Build recommendation models
-- Compare recommendation performance
-- Generate Top-K personalized recommendations
-
-## Exploratory Data Analysis
-
-### Rating Distribution
-![Rating Distribution](rating_distribution.png)
-
-### User Activity Distribution
-![User Activity](user_activity.png)
-
-### Top Rated Movies
-![Top Movies](top_movies.png)
+## Project Structure
+| Notebook | Description |
+|----------|-------------|
+| `netflix_eda.ipynb` | Exploratory Data Analysis |
+| `netflix_models.ipynb` | Model building — SVD and Item-Based CF |
+| `netflix_improvements.ipynb` | SVD tuning, SVD++, explainability |
+| `netflix_evaluation.ipynb` | RMSE, MAE, MAP@10 evaluation |
 
 ## Models Implemented
+| Model | RMSE | Notes |
+|-------|------|-------|
+| Item-Based CF | 1.1636 | Baseline |
+| SVD (default) | 0.9867 | Best performer |
+| SVD++ | 0.9930 | Enhanced SVD with implicit feedback |
 
-### 1. Item-Based Collaborative Filtering
-- KNNBasic from Scikit-Surprise
-- Similarity-based recommendations
+## Key Features
+- 3 models compared — Item-CF, SVD, SVD++
+- Mandatory metrics — RMSE and MAP@10 both implemented
+- Explainable recommendations — why each movie was recommended
+- Cold start handling — Bayesian average scoring for new users
+- Popularity bias analysis — coverage and diversity metrics
 
-### 2. Singular Value Decomposition (SVD)
-- Matrix Factorization approach
-- Learns latent user and movie preferences
+## Tech Stack
+- Python 3.x
+- scikit-surprise (SVD, SVD++, KNNBasic)
+- pandas, numpy, matplotlib, seaborn
 
-## Model Comparison
+## How to Run
 
-![Model Comparison](model_comparison.png)
+### 1. Install dependencies
+pip install scikit-surprise pandas numpy matplotlib seaborn
+### 2. Download dataset
+- Kaggle: https://www.kaggle.com/datasets/netflix-inc/netflix-prize-data
+- Place `combined_data_1.txt` and `movie_titles.csv` in project folder
 
-| Model | RMSE |
-|---------|---------|
-| Item-Based CF | 1.1636 |
-| SVD | 0.9867 |
+### 3. Run notebooks in order
+netflix_eda.ipynb
+netflix_models.ipynb
+netflix_improvements.ipynb
+netflix_evaluation.ipynb
+###Results
+SVD achieves RMSE of 0.9867
+SVD MAP@10 = 0.6822
+Item-CF MAP@10 = 0.5811
+Data sparsity > 99%
+Cold start problem addressed using Bayesian average scoring
+SVD++ needs more data to outperform standard SVD
 
-## Results
-- SVD achieved the best prediction accuracy.
-- Dataset sparsity was above 99%.
-- Personalized Top-10 movie recommendations were generated for users.
-- Collaborative filtering performed well for active users and popular content.
-
-## Repository Structure
-
-```
-netflix-recommendation-system/
-│
-├── netflix_eda.ipynb
-├── netflix_model.ipynb
-├── rating_distribution.png
-├── user_activity.png
-├── top_movies.png
-├── model_comparison.png
-├── top10_recommendations.csv
-└── README.md
-```
-
-## Technologies Used
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-Surprise
-
-## Future Improvements
-- Hybrid Recommendation System
-- Neural Collaborative Filtering
-- Streamlit Dashboard
-- Real-Time Recommendation API
+##Evaluation Setup:
+- Train/Test Split: 80% train · 20% test (Surprise `train_test_split`)
+- Relevance threshold: rating ≥ 3.5 → considered relevant for MAP@10
+  
+## Dataset
+- Source: Netflix Prize Dataset (Kaggle)
+- Subset: 2M ratings out of 100M total
+- Users: 480,189 | Movies: 17,770
+- Rating scale: 1-5 stars
